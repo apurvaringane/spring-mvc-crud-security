@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-info text-white mb-3" th:fragment="header">
+        <a th:href="@{/}"><h2 class="text-center">WELCOME TO PRODUCT STORE</h2> </a>
+
+
+
+        <form th:action="@{/logout}" method="post">
+            <button class="btn btn-danger">LOGOUT</button>
+        </form>
+    </nav>
+</body>
+</html>

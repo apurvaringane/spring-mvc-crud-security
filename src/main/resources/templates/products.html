@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>PRODUCT STORE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div th:replace="navigation::header"></div>
+        <h2>WELCOME <span sec:authentication="principal.username"></span></h2>
+        <h2>AUTHORITY <span sec:authentication="principal.authorities"></span></h2>
+        <div class="row mb-5">
+            <div class="col-4">
+                <a sec:authorize="hasRole('DEALER')" href="get-product-form"><button class="btn btn-info">ADD PRODUCT</button></a>
+            </div>
+            <div class="col-4">
+                <form method="get" th:action="@{/search}" >
+                    <input type="search" th:value="${name}" name="name"/>
+                    <button type="submit" class="btn btn-success">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>PRODUCT ID</th>
+                        <th>PRODUCT NAME</th>
+                        <th>PRODUCT PRICE</th>
+                        <th>PRODUCT CATEGORY</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product:${products}">
+                        <td th:text="${product.productId}"></td>
+                        <td th:text="${product.productName}"></td>
+                        <td th:text="${product.productPrice}"></td>
+                        <td th:text="${product.productCategory}"></td>
+                        <td>
+                            <a sec:authorize="hasRole('VENDOR')" th:href="@{/update/{id}(id=${product.productId})}"><button class="btn btn-warning">UPDATE PRODUCT</button></a>
+                            <a sec:authorize="hasRole('DEALER')" th:href="@{/delete/{id}(id=${product.productId})}"><button class="btn btn-danger">DELETE PRODUCT</button></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
